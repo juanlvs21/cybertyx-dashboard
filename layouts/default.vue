@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="oscuro" >
+  <v-app :dark="modoOscuro" >
     <!-- <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
     <!-- Sidenav -->
     <v-navigation-drawer v-model="drawer" fixed app>
@@ -9,7 +9,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" />
+            <v-list-tile-title v-text="item.title"/>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -27,7 +27,7 @@
       <v-toolbar-items>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn icon @click="modoOscuro" v-on="on">
+            <v-btn icon @click="toogleOscuro" v-on="on">
               <v-icon class="tam-icon">fas fa-user</v-icon>
             </v-btn>
           </template>
@@ -36,7 +36,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn icon @click="modoOscuro" v-on="on">
+            <v-btn icon @click="toogleOscuro" v-on="on">
               <v-icon class="tam-icon">fas fa-moon</v-icon>
             </v-btn>
           </template>
@@ -45,7 +45,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn icon @click="modoOscuro" v-on="on">
+            <v-btn icon @click="logout" v-on="on">
               <v-icon class="tam-icon">fas fa-sign-out-alt</v-icon>
             </v-btn>
           </template>
@@ -71,7 +71,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import '@fortawesome/fontawesome-free/css/all.min.css'
+import '../assets/style/material-icons.css'
+import '../assets/style/global.css'
 
 export default {
   data() {
@@ -79,7 +82,6 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      oscuro: false,
       itemsNav: [
         {
           icon: 'fas fa-home',
@@ -104,10 +106,16 @@ export default {
     let date = new Date()
     this.year = date.getFullYear()
   },
+  computed: {
+      ...mapState(['modoOscuro']),
+  },
   methods: {
-    modoOscuro() {
-      this.oscuro = !this.oscuro
-    }
+    toogleOscuro() {
+      this.$store.commit('toogleOscuro')
+    },
+    logout() {
+      this.$router.push({ path: 'login' })
+    },
   },
 }
 </script>
@@ -120,15 +128,5 @@ export default {
     border: transparent!important;
     box-shadow: 0;
   }
-  .text-naranja{
-    color: #fb862e!important;
-  }
 </style>
-
-<style>
-  .v-list__tile--active {
-    color: #fb862e!important;
-  }
-</style>
-
 
