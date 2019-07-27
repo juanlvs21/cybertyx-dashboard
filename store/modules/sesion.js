@@ -1,3 +1,5 @@
+const URL = 'http://10.0.8.112:3001'
+
 const login = {
     state: {
         user: {
@@ -45,7 +47,7 @@ const login = {
     actions: {
         async actionLogin({ commit }, payload) {
             payload.password = btoa(payload.password) // Ciframos los datos para que viajen por http
-            const query = await this.$axios.$post('http://localhost:3001/api/v1/session/login', payload)
+            const query = await this.$axios.$post(`${URL}/api/v1/session/login`, payload)
             if (query.error) {
                 commit('mutateLoginError', { error: true, message: query.data })
             } else {
