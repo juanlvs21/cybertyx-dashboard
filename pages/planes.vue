@@ -37,7 +37,7 @@ import '../assets/style/table.css'
 
 export default {
   name: 'Planes',
-  // middleware: 'auth',
+  middleware: 'auth',
   head() {
     return {
       title: 'Cybertyx | Planes'

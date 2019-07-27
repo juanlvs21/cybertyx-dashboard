@@ -58,7 +58,7 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'Inicio',
-  // middleware: 'auth',
+  middleware: 'auth',
   head() {
     return {
       title: 'Cybertyx | Inicio'
