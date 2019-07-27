@@ -21,7 +21,7 @@ export default {
   name: 'Sidenav',
   data() {
     return {
-      sidenav: false,
+      sidenav: true,
     }
   },
   computed: {
@@ -31,8 +31,9 @@ export default {
         return this.$store.state.showSidenav
       },
       set () {
-        // if (this.sidenav) {
-        //   vuethis.$store.commit('toogleSidenav')
+        // if (!this.sidenav && this.showSidenav) {
+        //   this.$store.commit('toogleSidenav')
+        //   console.log('set')
         // }
         console.log('Set')
       }
@@ -43,19 +44,24 @@ export default {
       itemsNav: [
         {
           icon: 'fas fa-home',
-          title: 'Tablero',
+          title: 'Home',
           to: '/'
+        },
+        {
+          icon: 'fas fa-history',
+          title: 'Historial',
+          to: '/historial'
         },
         {
           icon: 'fas fa-hand-holding-usd',
           title: 'Planes',
           to: '/planes'
         },
-        {
-          icon: 'far fa-envelope',
-          title: 'Mensajes',
-          to: '/mensajes'
-        }
+        // {
+        //   icon: 'far fa-envelope',
+        //   title: 'Mensajes',
+        //   to: '/mensajes'
+        // }
       ],
     }
   },
@@ -66,6 +72,10 @@ export default {
   //       console.log('if')
   //     } else{
   //       if (vuethis.showSidenav) {
+  //         console.log('if2', vuethis.showSidenav)
+  //         vuethis.sidenav = false
+  //       } else {
+  //         console.log('else2', vuethis.showSidenav)
   //         vuethis.sidenav = true
   //       }
   //     }

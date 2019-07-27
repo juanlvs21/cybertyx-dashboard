@@ -1,19 +1,21 @@
 import Vuex from 'vuex'
 
 import global from './modules/global'
-import login from './modules/login'
+import sesion from './modules/sesion'
 
 const store = () => {
     return new Vuex.Store({
         state: {
             ...global.state,
-            ...login.state,
+            ...sesion.state,
         },
         mutations: {
             ...global.mutations,
-            ...login.mutations,
+            ...sesion.mutations,
         },
-        actions: {}
+        actions: {
+            ...sesion.actions,
+        }
     })
 }
 

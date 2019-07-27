@@ -1,26 +1,16 @@
 const global = {
     state: {
         modoOscuro: false,
-        modalCerrarSesion: false,
         showSidenav: false,
     },
     mutations: {
-        toogleOscuro(state) {
+        mutateToogleOscuro(state) {
             state.modoOscuro = !state.modoOscuro
         },
-        toogleSidenav(state) {
+        mutateToogleSidenav(state) {
             state.showSidenav = !state.showSidenav
         },
-        logout(state) {
-            state.modalCerrarSesion = false
-            this.$router.push({ path: 'login' })
-        },
     },
-    getters: {
-        getShowSidenav(state) {
-            return state.showSidenav
-        }
-    }
 }
 
 export default global

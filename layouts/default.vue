@@ -8,7 +8,10 @@
     
     <!-- Content -->
     <v-content>
-      <v-container>
+      <div class="name-end">
+        <h3>Bienvenido, {{ user.user }}</h3>  
+      </div>
+      <v-container class="container-app">
         <nuxt />
       </v-container>
     </v-content>
@@ -48,8 +51,23 @@ export default {
     this.year = date.getFullYear()
   },
   computed: {
-      ...mapState(['modoOscuro']),
+      ...mapState(['modoOscuro', 'user']),
   },
 }
 </script>
+
+<style scoped>
+  .name-end {
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px 15px 0px 0px;
+  }
+  .name-end h3 {
+    margin: 0px!important;
+  }
+  .container-app {
+    padding-top: 0px!important;
+  }
+</style>
+
 
