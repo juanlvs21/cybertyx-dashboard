@@ -61,6 +61,7 @@ export default {
         { fecha: '01/12/2018', plan: '350 GB', costo: '30$' },
         { fecha: '01/11/2018', plan: '200 GB', costo: '20$' },
         { fecha: '01/10/2018', plan: '30 GB', costo: '3$' },
+        { fecha: '01/09/2018', plan: '200 GB', costo: '20$' },
       ],
       page: 1,
     }
