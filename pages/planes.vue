@@ -1,32 +1,61 @@
 <template>
   <v-container grid-list-md text-center justify-center>
     <v-layout wrap>
-      <v-flex md12 sm12 xs12>
-        <v-card>
-          <div class="v-data-table elevation-1 theme--light">
-            <div class="text-md-center">
-              <h2 class="padding-10px">Lista de Planes</h2>
-            </div>
-            <div class="v-data-table__wrapper">
-              <table class="table table-bordered table-hover" v-bind:class="{ tableOscuro: modoOscuro }">
-                <thead>
-                  <tr>
-                    <th v-for="(title, i) in tableHeader" :key="i">
-                      <h3 class="table-header">{{ title }}</h3>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item, i) in TableItems" :key="i">
-                    <th>{{ item.datos }}</th>
-                    <th>{{ item.duracion }}</th>
-                    <th>{{ item.costo }}</th>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+      <template v-if="user.admin == true">
+        <v-flex md12 sm12 xs12>
+          <div class="text-md-center text-sm-center text-xs-center">
+            <transition name="fade-left">
+              <v-btn color="#fc842e" v-show="!agregarPlan" @click="agregarPlan = true" dark>Añadir Plan</v-btn>
+            </transition>
           </div>
-        </v-card>
+        </v-flex>
+        <v-flex md12 sm12 xs12>
+          <div class="text-md-center text-sm-center text-xs-center">
+            <transition name="fade-up">
+              <v-btn color="error" v-show="agregarPlan" @click="agregarPlan = false" dark>Cancelar</v-btn>
+            </transition>
+          </div>
+        </v-flex>
+        <v-flex md12 sm12 xs12>
+          <transition name="fade-up">
+            <v-card class="mt-3" v-show="agregarPlan">
+              <v-card-text>Hola</v-card-text>
+              <v-card-text>Hola</v-card-text>
+              <v-card-text>Hola</v-card-text>
+              <v-card-text>Hola</v-card-text>
+              <v-card-text>Hola</v-card-text>
+            </v-card>
+          </transition>
+        </v-flex>
+      </template>
+      <v-flex md12 sm12 xs12>
+        <transition name="fade-left">
+          <v-card v-show="!agregarPlan">
+            <div class="v-data-table elevation-1 theme--light">
+              <div class="text-md-center">
+                <h2 class="padding-10px">Lista de Planes</h2>
+              </div>
+              <div class="v-data-table__wrapper">
+                <table class="table table-bordered table-hover" v-bind:class="{ tableOscuro: modoOscuro }">
+                  <thead>
+                    <tr>
+                      <th v-for="(title, i) in tableHeader" :key="i">
+                        <h3 class="table-header">{{ title }}</h3>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, i) in TableItems" :key="i">
+                      <th>{{ item.datos }}</th>
+                      <th>{{ item.duracion }}</th>
+                      <th>{{ item.costo }}</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </v-card>
+        </transition>
       </v-flex>
     </v-layout>
   </v-container>
@@ -53,11 +82,11 @@ export default {
         { datos: '50GB', duracion: '1 Mes', costo: '5$' },
         { datos: '30GB', duracion: '1 Mes', costo: '3$' },
       ],
-      page: 1,
+      agregarPlan: false,      
     }
   },
   computed: {
-      ...mapState(['modoOscuro']),
-  }
+      ...mapState(['modoOscuro', 'user']),
+  },
 }
 </script>

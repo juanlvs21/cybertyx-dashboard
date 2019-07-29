@@ -31,6 +31,7 @@ import { mapState } from 'vuex'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import '../assets/style/material-icons.css'
 import '../assets/style/global.css'
+import '../assets/style/transitions.css'
 
 // Components
 import Navbar from '../components/Navbar/Navbar.vue'

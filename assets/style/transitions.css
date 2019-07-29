@@ -1,0 +1,44 @@
+/* Transicion fade */
+
+.fade-enter-active,
+.fade-leave-active {
+    opacity: 1;
+    transition: all 0.3s linear;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+
+/* Transicion fade-left */
+
+.fade-left-enter-active,
+.fade-left-leave-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: all 0.3s linear;
+}
+
+.fade-left-enter,
+.fade-left-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+
+/* Transicion fade-up */
+
+.fade-up-enter-active,
+.fade-up-leave-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.3s linear;
+}
+
+.fade-up-enter,
+.fade-up-leave-to {
+    transform: translateY(100%);
+    opacity: 0;
+}

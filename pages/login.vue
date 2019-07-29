@@ -22,11 +22,15 @@
                   required
                 ></v-text-field>
 
-                <v-alert type="error" color="red" elevation="2" class="border-radius-3px" v-model="errorLogin.error">
-                  {{ errorLogin.message }}
-                </v-alert>
+                <transition name="fade">
+                  <v-alert type="error" color="red" elevation="2" class="border-radius-3px" v-show="errorLogin.error">
+                    {{ errorLogin.message }}
+                  </v-alert>
+                </transition>
                 
-                <v-progress-linear v-if="loading" class="border-radius-3px" indeterminate color="#fc842e"></v-progress-linear>
+                <transition name="fade">
+                  <v-progress-linear v-show="loading" class="border-radius-3px" indeterminate color="#fc842e"></v-progress-linear>
+                </transition>
 
                 <div class="justify-center">
                   <v-btn type="submit" dark color="#fc842e">Iniciar Sesión</v-btn>

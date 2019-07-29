@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import '../assets/style/transitions.css'
+
 export default {
     mounted() {
       let container = document.getElementById('session-container')
