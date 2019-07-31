@@ -52,6 +52,7 @@ const login = {
                 user: payload.user,
                 password: btoa(payload.password),
             }
+            console.log(process.env.API_URL)
             try {
                 const query = await this.$axios.$post(`${URL_API}/api/v1/session/login`, user)
                 if (query.error) {
