@@ -1,5 +1,4 @@
-const URL_API = 'http://10.0.8.112:3001'
-    // const URL_API = 'http://localhost:3001'
+import URL_API from '../config/config'
 
 const login = {
     state: {
@@ -22,9 +21,11 @@ const login = {
         authUser: false,
     },
     mutations: {
-        mutateLogin(state, { user }) {
+        mutateLogin(state, user) {
             state.user = user
             state.authUser = true
+            state.errorLogin.error = false
+            state.errorLogin.message = ''
             console.log(state.user)
         },
         mutateLoginError(state, { error, message }) {
@@ -51,12 +52,15 @@ const login = {
                 user: payload.user,
                 password: btoa(payload.password),
             }
-            const query = await this.$axios.$post(`${URL_API}/api/v1/session/login`, user)
-            console.log(query)
-            if (query.error) {
-                commit('mutateLoginError', { error: true, message: query.data })
-            } else {
-                commit('mutateLogin', { user: query.data })
+            try {
+                const query = await this.$axios.$post(`${URL_API}/api/v1/session/login`, user)
+                if (query.error) {
+                    commit('mutateLoginError', { error: true, message: query.data })
+                } else {
+                    commit('mutateLogin', query.data)
+                }
+            } catch (error) {
+                commit('mutateLoginError', { error: true, message: 'Error desconocido' })
             }
         },
         actionLoginClearError({ commit }) {

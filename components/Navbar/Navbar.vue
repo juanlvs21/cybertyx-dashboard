@@ -36,7 +36,7 @@
             <span>Cerrar Sesión</span>
           </v-tooltip>
         </template>
-        <v-card>
+        <v-card class="pb-2">
           <v-card-title class="justify-center">
             <h2>¿Desea Cerrar Sesión?</h2>
           </v-card-title>

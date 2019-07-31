@@ -10,7 +10,7 @@
                 <v-text-field
                   v-model="user.user"
                   label="Usuario"
-                  color="success"
+                  color="warning"
                   required
                 ></v-text-field>
 
@@ -18,7 +18,7 @@
                   v-model="user.password"
                   label="Contraseña"
                   type="password"
-                  color="success"
+                  color="warning"
                   required
                 ></v-text-field>
 

@@ -12,6 +12,22 @@
 }
 
 
+/* Transicion fade-right */
+
+.fade-right-enter-active,
+.fade-right-leave-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: all 0.3s linear;
+}
+
+.fade-right-enter,
+.fade-right-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+
 /* Transicion fade-left */
 
 .fade-left-enter-active,
@@ -23,7 +39,7 @@
 
 .fade-left-enter,
 .fade-left-leave-to {
-    transform: translateX(100%);
+    transform: translateX(-100%);
     opacity: 0;
 }
 
