@@ -1,5 +1,5 @@
 const PORT = '3001'
-const URL = ''
+let URL = ''
 
 if (process.env.NODE_ENV == 'development') {
     URL = 'localhost'
