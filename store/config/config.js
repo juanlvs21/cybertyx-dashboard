@@ -7,6 +7,6 @@ if (process.env.NODE_ENV == 'development') {
     URL = '10.0.8.112'
 }
 
-const URL_API = `${URL}:${PORT}`
+const URL_API = `http://${URL}:${PORT}`
 
 export default URL_API
