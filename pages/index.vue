@@ -25,6 +25,13 @@
           </v-card-text>
         </v-card>
       </v-flex>
+      <template v-if="user.disabled == 'true'">
+        <v-flex xs12>
+          <v-alert type="error" border="left" elecation="3" v-model="user.disabled">
+            Usuario desactivado
+          </v-alert>
+        </v-flex>
+      </template>
     </v-layout>
     <v-layout>
       <v-flex md12 sm12 xs12>

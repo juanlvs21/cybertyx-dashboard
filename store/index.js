@@ -19,7 +19,7 @@ const store = () => {
         actions: {
             ...sesion.actions,
             ...planes.actions,
-        }
+        },
     })
 }
 

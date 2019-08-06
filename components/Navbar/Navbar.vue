@@ -7,14 +7,24 @@
     <v-spacer />
 
     <v-toolbar-items>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon class="tam-icon">fas fa-user</v-icon>
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-on="on" >
+            <v-icon class="tam-icon">fas fa-language</v-icon>
           </v-btn>
         </template>
-        <span>Perfil de Usuario</span>
-      </v-tooltip>
+
+        <v-list class="v-list-language">
+          <ul class="list-language">
+            <li>
+              <button>Español | Spanish</button>
+            </li>
+            <li>
+              <button>English | Ingles</button>
+            </li>
+          </ul>
+        </v-list>
+      </v-menu>
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -23,6 +33,15 @@
           </v-btn>
         </template>
         <span>Modo Oscuro</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <v-icon class="tam-icon">fas fa-user</v-icon>
+          </v-btn>
+        </template>
+        <span>Perfil de Usuario</span>
       </v-tooltip>
 
       <v-dialog width="500" v-model="modal">
@@ -57,7 +76,7 @@
 
 <script>
 // Imports
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -88,5 +107,24 @@ export default {
 <style scoped>
   .tam-icon {
     font-size: 18px;
+  }
+  .v-list-language {
+    padding: 0px!important;
+  }
+  .list-language {
+    list-style:none;
+    width: 150px;
+    padding: 0px;
+  }
+  .list-language button {
+    width: 100%;
+    padding: 5px;
+  }
+  .list-language button:hover {
+    background-color: #fc842e;
+    color: #fff;
+  }
+  .list-language button:active {
+    background-color: #f7a828;
   }
 </style>

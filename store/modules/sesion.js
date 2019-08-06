@@ -13,6 +13,7 @@ const login = {
             packetsOut: 0,
             dynamic: '',
             disabled: '',
+            session: '',
         },
         errorLogin: {
             error: false,
@@ -26,6 +27,7 @@ const login = {
             state.authUser = true
             state.errorLogin.error = false
             state.errorLogin.message = ''
+            sessionStorage.setItem('session', user.session)
             console.log(state.user)
         },
         mutateLoginError(state, { error, message }) {
@@ -44,6 +46,9 @@ const login = {
             state.user.dynamic = ''
             state.user.disabled = ''
             router.push('/login')
+        },
+        mutateRelogin(state) {
+            // console.log(localStorage)
         },
     },
     actions: {
@@ -65,6 +70,10 @@ const login = {
         },
         actionLoginClearError({ commit }) {
             commit('mutateLoginError', { error: false, message: '' })
+        },
+        actionRelogin({ commit }) {
+            console.log('actionRelogin')
+            commit('mutateRelogin')
         },
     }
 }

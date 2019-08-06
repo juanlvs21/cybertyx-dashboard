@@ -25,27 +25,34 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(plan, i) in plans" :key="i" v-show="!plansEmpty.empty">
-                      <th>{{ plan.data }}</th>
-                      <th>{{ plan.duration }}</th>
+                    <tr v-for="plan in plans" :key="plan.id" v-show="!plansEmpty.empty">
+                      <th>{{ plan.data }} {{ plan.dataType }}</th>
+                      <th>{{ plan.duration }} {{ plan.durationType }}</th>
                       <th>$ {{ plan.cost }}</th>
                       <th><span>{{ plan.dolartoday }} Bs.S</span></th>
                       <th v-if="user.admin == true" class="th-actions">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on }">
-                            <v-btn icon v-on="on" @click="onDelete(plan.id)">
-                              <v-icon class="tam-icon">fa fa-trash</v-icon>
-                            </v-btn>
-                          </template>
-                          <span>Eliminar Plan</span>
-                        </v-tooltip>
+                        <div class="th-actions-container">
 
+                          <CardFormPlanes :edit="edit" :editPlan="plan"/>
+
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                              <v-btn icon v-on="on" @click="onDelete(plan.id)">
+                                <v-icon class="tam-icon">fa fa-trash</v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Eliminar Plan</span>
+                          </v-tooltip>
+                        </div>
                       </th>
                     </tr>
                   </tbody>
                 </table>
                 <div class="text-xs-center pb-2 text-vacio" v-show="plansEmpty.empty" v-bind:class="{ textWhite: modoOscuro }">
                   <span>{{ plansEmpty.message }}</span>
+                </div>
+                <div class="text-xs-center pb-2 text-vacio" v-show="plansDolartodayError.error" v-bind:class="{ textWhite: modoOscuro }">
+                  <span>{{ plansDolartodayError.message }}</span>
                 </div>
               </div>
             </div>
@@ -54,70 +61,7 @@
       </v-flex>
       <template v-if="user.admin == true">
         <v-flex md12 sm12 xs12>
-          <div class="text-xs-center">
-            <v-dialog v-model="showModalAgregar" persistent max-width="600px">
-              <template v-slot:activator="{ on }">
-                <v-btn color="#fc842e" dark v-on="on">Agregar Plan</v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">Nuevo Plan</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-layout wrap>
-                    <!-- <v-form ref="form" @submit="onSubmit" @rest="onReset"> -->
-                    <v-form ref="form">
-                      <v-container grid-list-xl>
-                        <v-layout wrap>
-                          <v-flex xs12 md4 >
-                            <v-text-field
-                              label="Datos (MB/GB)"
-                              v-model="nuevoPlan.data"
-                              color="warning"
-                              required
-                            ></v-text-field>
-                          </v-flex>
-
-                          <v-flex  xs12 md4 >
-                            <v-text-field
-                              label="Duración (Dias/Mes)"
-                              v-model="nuevoPlan.duration"
-                              color="warning"
-                              required
-                            ></v-text-field>
-                          </v-flex>
-
-                          <v-flex xs12 md4 >
-                            <v-text-field
-                              label="Costo (USD)"
-                              v-model="nuevoPlan.cost"
-                              color="warning"
-                              required
-                            ></v-text-field>
-                          </v-flex>
-
-                          <v-flex xs12 class="d-flex justify-center">
-                            <transition name="fade">
-                                <v-progress-circular 
-                                  v-show="guardando"
-                                  indeterminate
-                                  color="#fc842e"
-                                ></v-progress-circular>
-                            </transition>
-                          </v-flex>
-                        </v-layout>
-                      </v-container>
-                    </v-form>
-                  </v-layout>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="error" text @click="showModalAgregar = false" dark>Cancelar</v-btn>
-                  <v-btn color="#fc842e" type="button" @click="onSubmit" dark>Guardar Nuevo Plan</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
+          <CardFormPlanes :create="create"/>
         </v-flex>
       </template>
     </v-layout>
@@ -127,6 +71,8 @@
 import { mapState } from 'vuex'
 import '../assets/style/table.css'
 
+import CardFormPlanes from '../components/CardFormPlanes/CardFormPlanes.vue'
+
 export default {
   name: 'Planes',
   middleware: 'auth',
@@ -134,6 +80,9 @@ export default {
     return {
       title: 'Cybertyx | Planes'
     }
+  },
+  components: {
+    CardFormPlanes,
   },
   data () {
     return {
@@ -145,20 +94,15 @@ export default {
         { data: '50GB', duration: '1 Mes', cost: '5$' },
         { data: '30GB', duration: '1 Mes', cost: '3$' },
       ],
-      nuevoPlan: {
-        data: '',
-        duration: '',
-        cost: null,
-      },
       loading: true,
-      guardando: false,
       eliminando: false,
-      showModalAgregar: false,
       showModalEliminar: false,
+      edit: true,
+      create: true,
     }
   },
   computed: {
-      ...mapState(['modoOscuro', 'user', 'plans', 'plansEmpty']),
+      ...mapState(['modoOscuro', 'user', 'plans', 'plansEmpty', 'plansDolartodayError']),
   },
   mounted() {
     this.loading = true
@@ -168,24 +112,6 @@ export default {
       })
   },
   methods: {
-    onSubmit(e) {
-      e.preventDefault()
-      this.guardando = true
-      this.$store.dispatch('actionNuevoPlan', this.nuevoPlan )
-        .then( () => {
-          this.guardando = false
-          this.loading = true
-          this.showModalAgregar = false
-          this.$store.dispatch('actionGetPlans')
-            .then( () => {
-              this.nuevoPlan.data = ''
-              this.nuevoPlan.duration = ''
-              this.nuevoPlan.cost = null
-
-              this.loading = false
-            })
-        })
-    },
     onDelete(id) { 
       if (confirm('¿Desea eliminar este plan?')) {
         this.eliminando = true
@@ -221,10 +147,18 @@ export default {
     color: #fff;
   }
   .th-actions {
-    padding: 0px;
+    padding: 0px!important;
   }
+  .th-actions-container {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+<style>
   .th-actions button {
-    margin: 0px;
+    color: #fc842e!important;
+    background: transparent!important;
   }
   .th-actions button i {
     font-size: 16px!important;

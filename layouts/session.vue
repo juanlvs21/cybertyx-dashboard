@@ -13,6 +13,12 @@ export default {
       let height = window.innerHeight
 
       container.style.height = `${height}px`
+
+      let body = document.querySelector('body')
+
+      body.style.background = '#f7a828'
+      body.style.background = '-webkit-linear-gradient(to right, #fc842e, #f7a828)'
+      body.style.background = 'linear-gradient(to right, #fc842e, #f7a828)'
     },
 }
 </script>
@@ -22,8 +28,5 @@ export default {
         display: flex!important;
         justify-content: center;
         align-items: center;
-        background: #f7a828;
-        background: -webkit-linear-gradient(to right, #fc842e, #f7a828);  
-        background: linear-gradient(to right, #fc842e, #f7a828); 
     }
 </style>

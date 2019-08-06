@@ -9,6 +9,14 @@
           <v-list-tile-title v-text="item.title"/>
         </v-list-tile-content>
       </v-list-tile>
+      <v-list-tile v-if="user.admin == true" :to="itemsAdmin.users.to">
+        <v-list-tile-action>
+          <v-icon>{{ itemsAdmin.users.icon }}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title v-text="itemsAdmin.users.title"/>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -25,7 +33,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['showSidenav']),
+    ...mapState(['showSidenav', 'user']),
     toogleSidenav: {
       get () {
         return this.$store.state.showSidenav
@@ -63,6 +71,13 @@ export default {
         //   to: '/mensajes'
         // }
       ],
+      itemsAdmin: {
+        users: {
+          icon: 'fas fa-users',
+          title: 'Usuarios',
+          to: '/usuarios'
+        }
+      }
     }
   },
   // mounted() {
