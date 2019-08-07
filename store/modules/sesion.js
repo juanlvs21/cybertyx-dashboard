@@ -11,7 +11,6 @@ const login = {
             bytesOut: 0,
             packetsIn: 0,
             packetsOut: 0,
-            dynamic: '',
             disabled: '',
             session: '',
         },
@@ -27,8 +26,7 @@ const login = {
             state.authUser = true
             state.errorLogin.error = false
             state.errorLogin.message = ''
-            sessionStorage.setItem('session', user.session)
-            console.log(state.user)
+            this.$cookies.set('session', state.user.session)
         },
         mutateLoginError(state, { error, message }) {
             state.errorLogin.error = error
@@ -43,12 +41,10 @@ const login = {
             state.user.bytesOut = 0
             state.user.packetsIn = 0
             state.user.packetsOut = 0
-            state.user.dynamic = ''
             state.user.disabled = ''
+
+            this.$cookies.remove('session')
             router.push('/login')
-        },
-        mutateRelogin(state) {
-            // console.log(localStorage)
         },
     },
     actions: {
@@ -71,9 +67,17 @@ const login = {
         actionLoginClearError({ commit }) {
             commit('mutateLoginError', { error: false, message: '' })
         },
-        actionRelogin({ commit }) {
-            console.log('actionRelogin')
-            commit('mutateRelogin')
+        async actionRelogin({ commit }, cookieSession) {
+            try {
+                const query = await this.$axios.$post(`${URL_API}/api/v1/session/relogin`, { cookieSession })
+                if (query.error) {
+                    commit('mutateLoginError', { error: true, message: query.data })
+                } else {
+                    commit('mutateLogin', query.data)
+                }
+            } catch (error) {
+                commit('mutateLoginError', { error: true, message: 'Error desconocido' })
+            }
         },
     }
 }

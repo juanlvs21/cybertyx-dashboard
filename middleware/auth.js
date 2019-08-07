@@ -1,7 +1,14 @@
 export default function({ store, error, redirect, app }) {
-    // const user = window.sessionStorage.getItem('session')
-    if (!store.state.authUser) {
-        store.dispatch('actionRelogin')
+    const cookieSession = app.$cookies.get('session')
+    if (cookieSession) {
+        store.dispatch('actionRelogin', cookieSession)
+            .then(() => {
+                if (!store.state.authUser) {
+                    return redirect('/login')
+                }
+            })
+
+    } else {
         return redirect('/login')
     }
 }
