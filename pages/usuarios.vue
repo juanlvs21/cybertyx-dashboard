@@ -74,7 +74,7 @@ import '../assets/style/table.css'
 
 export default {
   name: 'Usuarios',
-  middleware: 'auth',
+  middleware: 'session',
   head() {
     return {
       title: 'Cybertyx | Usuarios'
@@ -88,9 +88,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('actionGetUsers')
-      .then( () => {
-        console.log('listo')
-      })
   },
   computed: {
       ...mapState(['modoOscuro', 'users']),

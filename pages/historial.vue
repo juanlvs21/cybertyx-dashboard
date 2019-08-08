@@ -47,7 +47,7 @@ import '../assets/style/table.css'
 
 export default {
   name: 'Historial',
-  middleware: 'auth',
+  middleware: 'session',
   head() {
     return {
       title: 'Cybertyx | Historial'

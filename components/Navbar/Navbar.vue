@@ -98,7 +98,7 @@ export default {
   methods: {
     ...mapMutations(['mutateToogleSidenav', 'mutateToogleOscuro']),
     handleLogout() {
-      this.$store.commit('mutateLogout', this.$router)
+      this.$store.commit('mutateLogout')
     },
   },
 }

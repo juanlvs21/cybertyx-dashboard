@@ -75,7 +75,7 @@ import CardFormPlanes from '../components/CardFormPlanes/CardFormPlanes.vue'
 
 export default {
   name: 'Planes',
-  middleware: 'auth',
+  middleware: 'session',
   head() {
     return {
       title: 'Cybertyx | Planes'

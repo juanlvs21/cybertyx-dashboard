@@ -9,7 +9,8 @@
     <!-- Content -->
     <v-content>
       <div class="name-end">
-        <h3>Bienvenido, {{ user.user }}</h3>  
+        <h3 v-if="user.name == null">Bienvenido</h3>  
+        <h3 v-else>Bienvenido, {{ user.name }}</h3>  
       </div>
       <v-container class="container-app">
         <nuxt />

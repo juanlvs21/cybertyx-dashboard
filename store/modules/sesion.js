@@ -27,12 +27,17 @@ const login = {
             state.errorLogin.error = false
             state.errorLogin.message = ''
             this.$cookies.set('session', state.user.session)
+
+            if (state.user.name == null) {
+                console.log(this)
+                this.$router.push('/nombre')
+            }
         },
         mutateLoginError(state, { error, message }) {
             state.errorLogin.error = error
             state.errorLogin.message = message
         },
-        mutateLogout(state, router) {
+        mutateLogout(state) {
             state.user.user = ''
             state.user.name = ''
             state.user.profile = ''
@@ -42,9 +47,10 @@ const login = {
             state.user.packetsIn = 0
             state.user.packetsOut = 0
             state.user.disabled = ''
+            state.authUser = false
 
             this.$cookies.remove('session')
-            router.push('/login')
+            this.$router.push('/login')
         },
     },
     actions: {

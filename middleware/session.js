@@ -7,6 +7,9 @@ export default function({ store, error, redirect, app }) {
                     return redirect('/login')
                 }
             })
+            .catch(err => {
+                console.log('Error: ', err)
+            })
 
     } else {
         return redirect('/login')
