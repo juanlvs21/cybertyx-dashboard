@@ -29,7 +29,6 @@ const login = {
             this.$cookies.set('session', state.user.session)
 
             if (state.user.name == null) {
-                console.log(this)
                 this.$router.push('/nombre')
             }
         },

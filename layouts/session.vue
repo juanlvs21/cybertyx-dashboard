@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import '../assets/style/global.css'
 import '../assets/style/transitions.css'
 
 export default {

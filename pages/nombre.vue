@@ -9,8 +9,9 @@
         <v-text-field
           label="Nombre"
           v-model="formUser.name"
-          color="warning"
+          color="light"
           required
+          class="input-cybertyx"
         ></v-text-field>
         <div class="text-xs-center">
           <v-btn color="#fc842e" type="submit" dark >Registrar nombre</v-btn>
@@ -46,7 +47,7 @@ export default {
       e.preventDefault()
       let updateUser = {...this.user}
       updateUser.name = this.formUser.name
-      this.$store.dispatch('updateUser', updateUser )
+      this.$store.dispatch('actionUpdateUser', updateUser )
     }
   },
 }

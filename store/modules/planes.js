@@ -3,6 +3,7 @@ import URL_API from '../config/config'
 const planes = {
     state: {
         plans: [],
+        plansProfilesNames: [],
         plansEmpty: {
             empty: false,
             message: '',
@@ -13,6 +14,9 @@ const planes = {
         }
     },
     mutations: {
+        mutatePlansProfilesNames(state, profilesNames) {
+            state.plansProfilesNames = profilesNames
+        },
         mutatePlans(state, plans) {
             state.plans = plans
 
@@ -41,6 +45,10 @@ const planes = {
         },
     },
     actions: {
+        async actionPlanProfilesNames({ commit }) {
+            const query = await this.$axios.$get(`${URL_API}/api/v1/plans/profiles/names`)
+            commit('mutatePlansProfilesNames', query.data)
+        },
         async actionNuevoPlan({ commit }, payload) {
             const query = await this.$axios.$post(`${URL_API}/api/v1/plans`, payload)
         },

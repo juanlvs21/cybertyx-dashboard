@@ -8,13 +8,7 @@
               <div class="text-md-center">
                 <h2 class="padding-10px">Lista de Planes</h2>
               </div>
-              <div class="text-xs-center pb-3" v-show="loading">
-                <v-progress-circular
-                  indeterminate
-                  color="#fc842e"
-                ></v-progress-circular>
-              </div>
-              <div class="v-data-table__wrapper" v-show="!loading">
+              <div class="v-data-table__wrapper">
                 <table class="table table-bordered table-hover" v-bind:class="{ tableOscuro: modoOscuro }">
                   <thead>
                     <tr>
@@ -94,7 +88,6 @@ export default {
         { data: '50GB', duration: '1 Mes', cost: '5$' },
         { data: '30GB', duration: '1 Mes', cost: '3$' },
       ],
-      loading: true,
       eliminando: false,
       showModalEliminar: false,
       edit: true,
@@ -105,24 +98,20 @@ export default {
       ...mapState(['modoOscuro', 'user', 'plans', 'plansEmpty', 'plansDolartodayError']),
   },
   mounted() {
-    this.loading = true
     this.$store.dispatch('actionGetPlans')
       .then( () => {
-        this.loading = false
       })
   },
   methods: {
     onDelete(id) { 
       if (confirm('¿Desea eliminar este plan?')) {
         this.eliminando = true
-        this.loading = true
         this.$store.dispatch('actionDeletePlan', id)
           .then( () => {
             this.eliminando = false
             this.$store.dispatch('actionGetPlans')
               .then( () => {
                 this.showModalEliminar = false
-                this.loading = false
               })
           })
       }

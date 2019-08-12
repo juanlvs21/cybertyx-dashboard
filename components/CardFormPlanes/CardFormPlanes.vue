@@ -23,12 +23,13 @@
                         <v-text-field
                           label="Datos"
                           v-model="plan.data"
-                          color="warning"
+                          color="light"
                           required
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs6 >
                         <v-select
+                          color="light"
                           v-model="plan.dataType"
                           :items="['MB', 'GB']"
                           label="MB/GB"
@@ -43,12 +44,13 @@
                         <v-text-field
                           label="Duración"
                           v-model="plan.duration"
-                          color="warning"
+                          color="light"
                           required
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs6 >
                         <v-select
+                          color="light"
                           v-model="plan.durationType"
                           :items="['Dias', 'Mes']"
                           label="Dias/Mes"
@@ -61,7 +63,7 @@
                     <v-text-field
                       label="Costo (USD)"
                       v-model="plan.cost"
-                      color="warning"
+                      color="light"
                       required
                     ></v-text-field>
                   </v-flex>
@@ -80,7 +82,7 @@
             </v-form>
           </v-layout>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pb-3">
           <v-spacer></v-spacer>
           <v-btn color="error" text @click="showModalAgregarEditar = false" dark>Cancelar</v-btn>
           <v-btn color="#fc842e" type="button" @click="onSubmit" dark v-show="create">Guardar Nuevo Plan</v-btn>

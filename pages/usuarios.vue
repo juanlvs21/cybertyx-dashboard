@@ -48,10 +48,42 @@
                     <th>{{ user.profile }}</th>
                     <th>{{ user.user }}</th>
                     <th class="th-actions">
+                      <v-tooltip bottom v-if="!user.disabled">
+                        <template v-slot:activator="{ on }">
+                          <v-btn icon v-on="on" @click="disableUser(user.id)">
+                            <v-icon class="icon-status text-disabled">fa fa-circle</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Desactivar Usuario</span>
+                      </v-tooltip>
+                      <v-tooltip bottom v-if="user.disabled">
+                        <template v-slot:activator="{ on }">
+                          <v-btn icon v-on="on" @click="enableUser(user.id)">
+                            <v-icon class="icon-status text-activated">fa fa-circle</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Activar Usuario</span>
+                      </v-tooltip>
+                      <v-tooltip bottom v-if="!user.admin">
+                        <template v-slot:activator="{ on }">
+                          <v-btn icon v-on="on" @click="typeAdminUser(user.id)">
+                            <v-icon class="icon-status text-admin">fa fa-star</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Nombrar Administrador</span>
+                      </v-tooltip>
+                      <v-tooltip bottom v-if="user.admin">
+                        <template v-slot:activator="{ on }">
+                          <v-btn icon v-on="on" @click="typeDefaultUser(user.id)">
+                            <v-icon class="icon-status text-default">fa fa-star</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Quitar Administrador</span>
+                      </v-tooltip>
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                           <v-btn icon v-on="on">
-                            <v-icon class="icon-status">fa fa-trash</v-icon>
+                            <v-icon class="icon-status text-naranja" @click="deleteUser(user.id)">fa fa-trash</v-icon>
                           </v-btn>
                         </template>
                         <span>Eliminar Usuario</span>
@@ -63,6 +95,47 @@
             </div>
           </div>
         </v-card>
+
+        <div class="text-xs-center">
+          <v-dialog v-model="showModalAdd" persistent max-width="600px">
+            <template v-slot:activator="{ on }">
+            <v-btn fab fixed bottom right class="btn-add-user" v-on="on">
+              <v-icon>add</v-icon>
+            </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">Agregar Usuario</span>
+              </v-card-title>
+              <v-card-text>
+                <v-layout wrap>
+                  <v-flex md12 sm12 xs12>
+                    <v-form ref="form">
+                      <v-text-field
+                        label="Usuario"
+                        v-model="newUser.user"
+                        color="light"
+                        required
+                      ></v-text-field>
+                      <v-select
+                        color="light"
+                        v-model="newUser.profile"
+                        :items="plansProfilesNames"
+                        label="Plan"
+                      ></v-select>
+                    </v-form>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-card-actions class="pb-3">
+                <v-spacer></v-spacer>
+                <v-btn color="error" text @click="showModalAdd = false" dark>Cancelar</v-btn>
+                <v-btn color="#fc842e" type="button" @click="addUser" dark>Agregar Usuario</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -84,14 +157,65 @@ export default {
     return {
       tableHeader: ['Estado', 'Nombre', 'Perfil', 'Usuario', 'Acciones'],
       page: 1,
+      showModalAdd: false,
+      newUser: {
+        user: '',
+        profile: '',
+      }
     }
   },
   mounted() {
     this.$store.dispatch('actionGetUsers')
+    this.$store.dispatch('actionPlanProfilesNames')
   },
   computed: {
-      ...mapState(['modoOscuro', 'users']),
-  }
+      ...mapState(['modoOscuro', 'users', 'plansProfilesNames']),
+  },
+  methods: {
+    disableUser(id) {
+      this.$store.dispatch('actionDisableUser', id )
+        .then( () => {
+          this.$store.dispatch('actionGetUsers')
+        })
+    },
+    enableUser(id) {
+      this.$store.dispatch('actionEnableUser', id )
+        .then( () => {
+          this.$store.dispatch('actionGetUsers')
+        })
+    },
+    typeAdminUser(id) {
+      this.$store.dispatch('actionTypeAdminUser', id )
+        .then( () => {
+          this.$store.dispatch('actionGetUsers')
+        })
+    },
+    typeDefaultUser(id) {
+      this.$store.dispatch('actionTypeDefaultUser', id )
+        .then( () => {
+          this.$store.dispatch('actionGetUsers')
+        })
+    },
+    addUser() {
+      this.$store.dispatch('actionAddUser', this.newUser )
+        .then( () => {
+          this.$store.dispatch('actionGetUsers')
+            .then( () => {
+              this.newUser.user = ''
+              this.newUser.profile = ''
+              this.showModalAdd = false
+            }) 
+        })
+    },
+    deleteUser(id) {
+      if (confirm('¿Desea eliminar este usuario permanentemente?')) {
+        this.$store.dispatch('actionDeleteUser', id )
+          .then( () => {
+            this.$store.dispatch('actionGetUsers')
+          })
+      }
+    },
+  },
 }
 </script>
 
@@ -117,5 +241,9 @@ export default {
   }
   .th-actions button{
     margin:0px!important;
+  }
+  .btn-add-user {
+    background-color: #fc842e!important;
+    color: #fff!important;
   }
 </style>
